@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     path: flink-session
-    repoURL: https://github.com/markmckie/local-cluster.git
+    repoURL: https://github.com/MichalIzdebski/local-cluster.git
     targetRevision: HEAD
   syncPolicy:
     automated:

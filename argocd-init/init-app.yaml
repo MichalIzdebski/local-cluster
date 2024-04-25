@@ -10,7 +10,7 @@ metadata:
 data:
   project: ZGVmYXVsdA==
   type: Z2l0
-  url: aHR0cHM6Ly9naXRodWIuY29tL21hcmttY2tpZS9sb2NhbC1jbHVzdGVyLmdpdA==
+  url: aHR0cHM6Ly9naXRodWIuY29tL01pY2hhbEl6ZGVic2tpL2xvY2FsLWNsdXN0ZXIuZ2l0
 type: Opaque
 ---
 apiVersion: argoproj.io/v1alpha1

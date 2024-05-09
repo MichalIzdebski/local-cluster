@@ -3,9 +3,15 @@ kind: IPAddressPool
 metadata:
   name: example
   namespace: metallb-system
+
+# this address has to match the first 3 octets from bottom IP addresses received via loging to LIMA CLI k3s-dev 
+# limactl shell k3s-dev    and then ipconfig | grep 9992 
+# inet 192.168.5.15/24 metric 100 brd 192.168.5.255 scope global dynamic eth0
+# inet 192.168.64.2/24 metric 100 brd 192.168.64.255 scope global dynamic lima0   so it is 192.168.64
+# i am not sure if it will work as expected when 4th octet is not changed and is different from the one i have 
 spec:
   addresses:
-  - 192.168.106.100-192.168.106.250
+  - 192.168.64.100-192.168.64.250
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement

@@ -9,13 +9,24 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/confi
 
 echo "Waiting for MetalLB"
 
-sleep 120
+kubectl -n metallb-system wait deploy --all --for condition=Available --timeout 2m
 
 kubectl apply -f metallb-ip.yaml
 
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-sleep 30
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+kubectl patch deployment \
+  argocd-server \
+  --namespace argocd \
+  --type='json' \
+  -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/args", "value": [
+  "/usr/local/bin/argocd-server",
+  "--disable-auth"
+]}]'
+
+kubectl -n argocd wait deploy --all --for condition=Available --timeout 2m
+
 kubectl apply -f argo-init.yaml
 
 

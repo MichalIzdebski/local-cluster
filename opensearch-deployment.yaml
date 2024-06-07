@@ -1,0 +1,51 @@
+# opensearch-deployment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: opensearch
+  labels:
+    app: opensearch
+spec:
+  ports:
+    - port: 9200
+      targetPort: 9200
+  selector:
+    app: opensearch
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: opensearch
+  labels:
+    app: opensearch
+spec:
+  serviceName: "opensearch"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opensearch
+  template:
+    metadata:
+      labels:
+        app: opensearch
+    spec:
+      containers:
+      - name: opensearch
+        image: opensearchproject/opensearch:latest
+        ports:
+        - containerPort: 9200
+        - containerPort: 9300
+        volumeMounts:
+        - name: data
+          mountPath: /usr/share/opensearch/data
+        env:
+        - name: discovery.type
+          value: single-node
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi

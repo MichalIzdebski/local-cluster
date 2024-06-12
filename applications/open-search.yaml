@@ -1,0 +1,21 @@
+# argocd-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "8"
+  name: opensearch-app
+  namespace: open-search
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/MichalIzdebski/local-cluster.git
+    targetRevision: HEAD
+    path: open-search
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
